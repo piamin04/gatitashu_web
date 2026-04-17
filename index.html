@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>같이타슈 - 모바일 웹</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #1a1a1a; margin: 0; font-family: 'Pretendard', sans-serif; color: #ffffff; }
+        .app-container { max-width: 480px; margin: 0 auto; background: linear-gradient(135deg, #0A1931 0%, #040A14 100%); min-height: 100vh; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow-x: hidden; }
+        .page { display: none; flex-direction: column; flex-grow: 1; padding: 2rem 1.5rem; animation: fadeIn 0.4s ease; }
+        .page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .text-yellow-custom { color: #FCDA05; }
+        .bg-yellow-custom { background-color: #FCDA05; }
+        .text-navy-custom { color: #0A1931; }
+        .bg-navy-custom { background-color: #0A1931; }
+        .info-card { background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1rem; text-align: left; backdrop-filter: blur(10px); }
+        .white-card { background-color: #ffffff; border-radius: 1.5rem; padding: 2rem 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); color: #333333; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 1. 랜딩 페이지 -->
+        <div id="page-landing" class="page active text-center">
+            <div class="mt-4 mb-8 flex justify-center">
+                <img src="logo.png" alt="같이타슈 로고" class="h-12 object-contain" onerror="this.src='https://via.placeholder.com/200x60.png?text=Logo+Here'">
+            </div>
+            <h2 class="text-lg font-bold text-yellow-custom mb-3">오늘 또 집에 안가게?</h2>
+            <h1 class="text-3xl font-extrabold text-white leading-tight mb-6">막차 끊긴 밤,<br><span class="text-yellow-custom">안전하고 저렴하게</span><br>귀가하세요.</h1>
+            <p class="text-sm font-medium text-gray-300 leading-relaxed mb-8">유세인트로 신원이 확실하게 보증된 학우들과만 매칭됩니다.<br>방향이 같은 사람끼리 모여 택시비를 1/N로 줄여보세요!</p>
+            <div class="w-full mb-10">
+                <div class="info-card"><div class="text-2xl mb-2">🎓</div><h3 class="font-bold text-white mb-1 text-base">철저한 신원 인증</h3><p class="text-sm text-gray-300 leading-snug">유세인트 인증을 통과한 실제 재학생만<br>입장 가능합니다.</p></div>
+                <div class="info-card"><div class="text-2xl mb-2">💸</div><h3 class="font-bold text-white mb-1 text-base">가벼워진 교통비</h3><p class="text-sm text-gray-300 leading-snug">비싼 심야 할증, 이제 동승원들과 1/N로<br>깔끔하게 나누세요.</p></div>
+            </div>
+            <div class="mt-auto pb-4">
+                <button onclick="goToPage('page-auth')" class="w-full bg-yellow-custom hover:bg-yellow-400 text-navy-custom font-extrabold py-4 rounded-full text-lg shadow-[0_0_15px_rgba(252,218,5,0.4)] mb-3">지금 무료로 참여하기</button>
+                <p class="text-xs text-gray-400 font-medium">5/10 이후가 되면 유료로 전환돼요.</p>
+            </div>
+        </div>
+
+        <!-- 2. 인증 및 정보 입력 화면 -->
+        <div id="page-auth" class="page justify-center items-center">
+            <div class="white-card w-full text-center">
+                <div class="text-4xl mb-4">🏫</div>
+                <h2 class="text-2xl font-extrabold text-navy-custom mb-2">유세인트 인증</h2>
+                <p class="text-sm text-gray-500 mb-8">안전한 동승을 위해 기본 정보를 입력해주세요.</p>
+                <div class="w-full text-left">
+                    <label class="block text-xs font-bold text-gray-600 mb-1 ml-1">이름 (본명)</label>
+                    <input type="text" id="user-name" placeholder="홍길동" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#0A1931]">
+                    <label class="block text-xs font-bold text-gray-600 mb-1 ml-1">학번</label>
+                    <input type="text" id="user-id" placeholder="20241234" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#0A1931]">
+                    <label class="block text-xs font-bold text-gray-600 mb-1 ml-1">학과</label>
+                    <input type="text" id="user-dept" placeholder="소프트웨어학부" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mb-8 focus:outline-none focus:ring-2 focus:ring-[#0A1931]">
+                    <button onclick="checkAuthAndGo()" class="w-full bg-navy-custom text-yellow-custom font-bold py-4 rounded-lg text-lg shadow-lg">인증하고 넘어가기</button>
+                </div>
+            </div>
+            <button onclick="goToPage('page-landing')" class="mt-6 text-sm text-gray-400 underline hover:text-white">이전으로 돌아가기</button>
+        </div>
+
+        <!-- 3. 서비스 이용 동의 화면 -->
+        <div id="page-terms" class="page justify-center items-center">
+            <div class="white-card w-full">
+                <h2 class="text-xl font-extrabold text-navy-custom mb-4 text-center">서비스 이용 동의</h2>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 h-48 overflow-y-auto text-xs text-gray-600 leading-relaxed">
+                    <strong class="text-navy-custom block mb-2">[필수] 개인정보 수집 및 이용 동의</strong>
+                    본 서비스는 사용자 간 동승을 위한 창구를 마련해 줄 뿐 이로 인해 발생하는 모든 문제에 대해 책임지지 않음.<br><br>
+                    정산은 1/N을 적극 권장하나 사용자 간 합의로 변경 가능하되, 정산 관련 문제에 대해서도 책임지지 않음.<br><br>
+                    사고 발생 시 본사가 소지한 개인정보가 문제 해결을 위해 제공될 수 있음.
+                </div>
+                <label class="flex items-center mb-8 cursor-pointer group">
+                    <input type="checkbox" id="agree-check" class="w-5 h-5 accent-[#0A1931] mr-3 cursor-pointer">
+                    <span class="font-medium text-navy-custom">위 서비스 이용 약관에 동의합니다.</span>
+                </label>
+                <button onclick="finishAndRedirect()" class="w-full bg-yellow-custom text-navy-custom font-extrabold py-4 rounded-lg text-lg shadow-[0_4px_10px_rgba(0,0,0,0.1)]">동의하고 시작하기</button>
+            </div>
+            <button onclick="goToPage('page-auth')" class="mt-6 text-sm text-gray-400 underline hover:text-white">이전으로 돌아가기</button>
+        </div>
+    </div>
+
+    <script>
+        function goToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function checkAuthAndGo() {
+            const name = document.getElementById('user-name').value;
+            const id = document.getElementById('user-id').value;
+            const dept = document.getElementById('user-dept').value;
+
+            if(!name || !id || !dept) {
+                alert("이름, 학번, 학과를 모두 입력해주세요.");
+                return;
+            }
+            goToPage('page-terms');
+        }
+
+        function finishAndRedirect() {
+            const isAgreed = document.getElementById('agree-check').checked;
+            if (!isAgreed) {
+                alert('서비스 이용 약관에 동의해주세요.');
+                return;
+            }
+
+            // 데이터 수집 객체
+            const userData = {
+                name: document.getElementById('user-name').value,
+                studentId: document.getElementById('user-id').value,
+                department: document.getElementById('user-dept').value,
+                consent: "O"
+            };
+
+            console.log("저장될 데이터:", userData);
+            // 추후 구글 시트 연동을 위한 API 호출 자리 (fetch 등)
+            // 연동 후 아래 카카오톡 링크로 이동하도록 처리합니다.
+
+            window.location.href = 'https://open.kakao.com/o/gDVK0oqi';
+        }
+    </script>
+</body>
+</html>
